@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const userschema = new mongoess.mongoess({
+const userschema = new mongoose.Schema({
 
   email: {
     type: String,
