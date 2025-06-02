@@ -73,16 +73,20 @@ export async function login(req, res) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const paswordisMatch = await bcrypt.compare(password, user.password);
-    if (!paswordisMatch) {
+    const passwordIsMatch = await bcrypt.compare(password, user.password);
+    if (!passwordIsMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
-    generateTokenAndSetCookie(user._id, res);
+    const token = generateTokenAndSetCookie(user._id, res);
 
-    res. status(200).json({ sucess: true , user : {
-      ...user._doc,
-      password: ""
-    }});
+    res.status(200).json({ 
+      sucess: true, 
+      token,
+      user: {
+        ...user._doc,
+        password: ""
+      }
+    });
     
   } catch (error) {
     console.log("Error in login :" + error.message);
