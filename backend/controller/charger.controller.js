@@ -28,7 +28,14 @@ export async function createCharger(req, res) {
 
 export async function getAllChargers(req, res) {
   try {
-    const chargers = await charger.find().populate('createdBy', 'name email');
+    const filter = {};
+    if (req.query.status) {
+      filter.status = req.query.status;
+    }
+    if (req.query.connectorType) {
+      filter.connectorType = req.query.connectorType;
+    }
+    const chargers = await charger.find(filter).populate('createdBy', 'name email');
     res.status(200).json({ success: true, chargers });
   } catch (error) {
     console.error("Error in GetAllChargers:", error.message);
